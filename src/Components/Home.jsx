@@ -1,10 +1,12 @@
 import React from 'react'
 
-function Home() {
+function Home({userData}) {
+  
+  console.log('home',userData)
   return (
    <>
    <div >
-    
+    <h1>Home</h1>
    </div>
    </>
   )
