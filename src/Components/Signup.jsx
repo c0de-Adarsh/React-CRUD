@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-function Signup({userData,setUserData}) {
+function Signup({userData,setUserData,form, setData, editIndex, setEditIndex}) {
 
-  const [form , setData] = useState({
-    userName:"", 
-    email:"",
-    number:""
-  })
-
+  
+  
+  const navigate = useNavigate()
  
 
   const changeHandler = (e) =>{
@@ -18,9 +15,18 @@ function Signup({userData,setUserData}) {
 
   const handleSubmit = (e) =>{
      e.preventDefault()
-     setUserData([...userData, form])
-     console.log(userData)
+     if(editIndex !== null){
+      const updateUser = userData.map((item,i) => i === editIndex? form : item)
+      setUserData(updateUser)
+      setEditIndex(null)
+     } else{
+      setUserData([...userData, form])
+      console.log(userData)
+     
+     }
+
     
+     navigate('/')
   }
 
    
@@ -29,9 +35,14 @@ function Signup({userData,setUserData}) {
       <div className='grid gap-8 justify-center h-[100vh] xl:h-full'>
         <div className='bg-gradient-to-r from-blue-500 to-purple-500 rounded-[20px] m-4'>
           <div className='border-[20px] border-transparent rounded-[20px] dark:text-gray-900 bg-white shadow-lg xl:p-10 2xl:p-10 md:p-10 sm:p-2 m-2 '>
-            <h1 className='pt-8 pb-6 font-bold text-5xl dark:text-gray-400 text-center cursor-default'>
+            {
+              editIndex === null? <h1 className='pt-8 pb-6 font-bold text-5xl dark:text-gray-400 text-center cursor-default'>
               Sign Up
+            </h1>: <h1 className='pt-8 pb-6 font-bold text-5xl dark:text-gray-400 text-center cursor-default'>
+             update
             </h1>
+            }
+           
             <form action="#" method='post' className='space-y-4'>
               <div>
                 <label className='mb-2 dark:text-gray-400 text-lg'>
@@ -52,9 +63,15 @@ function Signup({userData,setUserData}) {
                 </label>
                 <input type="text" placeholder='Your Number' className='border mb-2 p-3 dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:*:scale-105 ease-in-out duration-300' name='number' value={form.number} onChange={changeHandler}/>
               </div>
-              <button className='bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg p-2 mt-4 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out' onClick={handleSubmit}>
+
+              {
+                editIndex === null? <button className='bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg p-2 mt-4 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out' onClick={handleSubmit}>
                 Sign Up
+              </button>: <button className='bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg p-2 mt-4 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out' onClick={handleSubmit}>
+                update
               </button>
+              }
+             
             </form>
             <div className='flex flex-col mt-4 items-center justify-center text-sm'>
               <h3>

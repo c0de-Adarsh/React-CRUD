@@ -8,14 +8,22 @@ function App() {
 
   const [userData , setUserData] = useState([])
 
+  const [form , setData] = useState({
+    userName:"", 
+    email:"",
+    number:""
+  })
+
+  const [editIndex , setEditIndex] = useState(null)
+
   return (
    <>
    <div>
     <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path='/' element={<Home userData={userData} />}/>
-      <Route path='/signup' element={<Signup userData={userData} setUserData={setUserData} />}/>
+      <Route path='/' element={<Home userData={userData} setUserData={setUserData} form={form} setData={setData}   editIndex={editIndex} setEditIndex={setEditIndex}/>}/>
+      <Route path='/signup' element={<Signup userData={userData} setUserData={setUserData} form={form} setData={setData} editIndex={editIndex} setEditIndex={setEditIndex}/>}/>
     </Routes>
     </BrowserRouter>
    </div>
